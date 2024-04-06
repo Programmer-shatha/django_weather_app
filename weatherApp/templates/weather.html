@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+
+</head>
+<body>
+    <div class="container">
+        <div class="title text-center py-4 ">
+            <h1 class="text-white"><img src="../static/image/iconWeather.png" >WEATHER APP </h1>
+        </div>
+            <div class="row">
+                <div class="card bg-transparent">
+                    <div class="card-body">
+                        <p class="card-title">
+                            <form method="get">
+                                <div class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+                                    <div class="input-group">
+                                        <input type="search" name="city" placeholder="Enter a city" aria-describedby="button-addon1" class="form-control border-0 bg-light mx-1">
+                                        <div class="input-group-append">
+                                            <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i class="fa fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                        </p>
+                        <p class="card-text">
+                            {% if city %}
+                                <h6 class="text-white"> <span class="mx-3">{{ city }}, {{ country }}  </span> |  <span class="mx-3"> {{day_name}}  </span>  |  <span> {{today_date}} </span>  </h6>
+                                <h1 class="mt-3 text-white">{{ temperature }} °C </h1>
+                                <h6 class="text-white">{{ weather }} , <span>{{ weather_description }}</span></h6>
+                                <p><img src="http://openweathermap.org/img/w/{{ icon }}.png" width="100px" alt="not found"></p>
+                                <div>
+                                    <div class="row text-white">
+                                        <div class="col-3">
+                                            <div class="flex w-full justify-around bg-white/30 p-1 rounded-lg items-center gap-6">
+                                                <ion-icon class="w-8 h-8" name="thermometer"></ion-icon>
+                                                <div class="">
+                                                    <p>{{ temperature }} °C <span class="mx-2">Temperature</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-1">
+                                            <div class="d-flex" style="height: 70px;">
+                                                <div class="vr"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <div class="flex w-full justify-around bg-white/30 p-1 rounded-lg items-center gap-6">
+                                                <ion-icon class="w-8 h-8 " name="speedometer"></ion-icon>
+                                                <div class="">
+                                                    <p>{{ wind_speed }} m/s <span class="mx-2">Wind Speed</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-1">
+                                            <div class="d-flex" style="height: 70px;">
+                                                <div class="vr"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <div class="flex w-full justify-around bg-white/30 p-1 rounded-lg items-center gap-6">
+                                                <ion-icon class="w-8 h-8" name="rainy"></ion-icon>
+                                                <div class="">
+                                                    <p>{{ humidity }} % <span class="mx-2">Humidity</span></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                {% if error_message %}
+                                    <p class="text-danger">{{ error_message }}</p>
+                                {% endif %}
+                                <p>Please enter a city name.</p>
+                            {% endif %}
+                        </p>
+                        <hr class="text-white">
+                        {% if forecast %}
+                        <div class="row d-flex justify-content-center mb-3 mx-2 ">
+                        {% for forecast_item in forecast %}
+                        <div class="col-md-12 col-lg-2 mb-4 mb-lg-0 col-sm-12 mx-3 mt-2">
+                            <div class="card card-forecast">
+                                <div class="card-body">
+                                    <p class="card-title">{{ forecast_item.date }} {{forecast_item.name_day}}</p>
+                                    <p class="card-text">{{ forecast_item.weather }} </p>
+                                    <p> {{ forecast_item.temperature }}°C</p>
+                                    <img src="http://openweathermap.org/img/wn/{{ forecast_item.icon }}.png" alt="weather icon">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                    </div>
+                </div>
+            </div>
+
+    </div>
+
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
